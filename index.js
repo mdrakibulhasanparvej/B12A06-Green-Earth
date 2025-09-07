@@ -1,3 +1,11 @@
+const loadAllTree = async () => {
+  const url = `https://openapi.programming-hero.com/api/plants`;
+  const res = await fetch(url);
+  const detail = await res.json();
+  dsplplantLoadbyCatagry(detail.plants);
+};
+loadAllTree();
+
 const loadCatagory = () => {
   fetch("https://openapi.programming-hero.com/api/categories")
     .then((res) => res.json())

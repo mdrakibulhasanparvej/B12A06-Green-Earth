@@ -18,7 +18,6 @@ const loadAllTree = () => {
   fetch("https://openapi.programming-hero.com/api/plants")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       dsplplantLoadbyCatagry(data.plants);
     })
     .finally(() => {
@@ -170,7 +169,9 @@ const ldedPlantContainer = document
     }
   });
 const cartHandler = (e) => {
-  console.log("card button clicked");
+  console.log("cart button clicked");
+  const title = e.target.parentNode.children[0].innerText;
+  console.log(e.target.parentNode.children);
 };
 
 // card function end

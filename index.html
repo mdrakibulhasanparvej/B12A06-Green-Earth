@@ -149,23 +149,18 @@
 
         <!-- cart section start -->
         <div
-          class="w-full my-2 h-full p-2 lg:w-1/5 bg-white rounded-xl overflow-hidden"
+          class="flex flex-col w-full my-2 p-2 lg:w-1/5 bg-white rounded-xl overflow-hidden"
         >
-          <h2 class="font-bold pb-3">Your Cart</h2>
-          <div class="all-cart-list">
-            <div
-              class="flex justify-between items-center p-3 rounded-xl bg-[#15803c22]"
-            >
-              <div class="space-y-2">
-                <h2 class="lg:text-sm">Mango</h2>
-                <p>$500</p>
-              </div>
-              <i class="fa-solid fa-xmark"></i>
-            </div>
+          <div class="flex w-full items-start justify-between mb-3 h-full">
+            <h2 class="font-bold p-3">Your Cart</h2>
+            <button onclick="clearCart()" class="btn btn-outline btn-error">
+              Clear
+            </button>
           </div>
-          <div class="justify-end">
-            <h2 class="font-bold py-5">Total: <span>result</span></h2>
+          <div id="cartConatiner" class="all-cart-list">
+            <!-- cart will add one by one here by forEach loop -->
           </div>
+          <div id="total" class="justify-end"></div>
         </div>
         <!-- cart section End -->
       </div>

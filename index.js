@@ -116,7 +116,7 @@ const dsplplantLoadbyCatagry = (loadCard) => {
                 <img class="rounded-xl w-[100%] h-[150px] object-cover object-center" src="${gridCard.image}" alt="" />
               </div>
               <div class="card-body p-3 pt-0">
-                <h2 onclick="loadPlantDetails(${gridCard.id})" class="card-title lg:text-sm">${gridCard.name}</h2>
+                <h2 id="${gridCard.id}" onclick="loadPlantDetails(${gridCard.id})" class="card-title lg:text-sm">${gridCard.name}</h2>
                 <p class="lg:text-[10px] text-gray-600">
                   ${gridCard.description}
                 </p>
@@ -157,21 +157,95 @@ const displayLoadCatagory = (catagry) => {
 };
 loadCatagory();
 
-// card function start
+// // card function start
 
 const cart = [];
 
-const ldedPlantContainer = document
-  .getElementById("plant-container")
-  .addEventListener("click", (e) => {
-    if (e.target.innerText === "Add to Cart") {
-      cartHandler(e);
-    }
-  });
+document.getElementById("plant-container").addEventListener("click", (e) => {
+  if (e.target.innerText === "Add to Cart") {
+    cartHandler(e);
+  }
+});
+
 const cartHandler = (e) => {
-  console.log("cart button clicked");
   const title = e.target.parentNode.children[0].innerText;
-  console.log(e.target.parentNode.children);
+  const id = e.target.parentNode.children[0].id;
+  const price = parseFloat(
+    e.target.parentNode.children[2].children[1].innerText
+  );
+
+  const existingItem = cart.find((item) => item.id === id);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({ id, title, price, quantity: 1 });
+  }
+
+  showCart();
+  showToast(`${title} added to cart`);
 };
 
-// card function end
+const showCart = () => {
+  const cartContainer = document.getElementById("cartConatiner");
+  cartContainer.innerHTML = "";
+
+  cart.forEach((item, index) => {
+    cartContainer.innerHTML += `
+      <div class="flex justify-between items-center p-3 rounded-xl bg-[#15803c22] mb-3">
+        <div class="space-y-2">
+          <h2 class="lg:text-sm">${item.title} </h2>
+          <p><i class="fa-solid fa-bangladeshi-taka-sign"></i>${
+            item.price * item.quantity
+          } <span class="text-sm text-gray-500">x${item.quantity}</span></p>
+        </div>
+        <i class="fa-solid fa-xmark cursor-pointer" onclick="removeItem(${index})"></i>
+      </div>
+    `;
+  });
+
+  updateTotal();
+};
+
+const removeItem = (index) => {
+  const item = cart[index];
+  if (item.quantity > 1) {
+    item.quantity -= 1;
+    showToast(`${item.title} removed`);
+  } else {
+    cart.splice(index, 1);
+    showToast(`${item.title} removed completely`);
+  }
+  showCart();
+};
+
+const updateTotal = () => {
+  const totalSection = document.getElementById("total");
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  totalSection.innerHTML = `
+  <h2 class="font-bold py-5 p-3 ">Total: <span>৳${totalPrice}</span></h2>
+  `;
+};
+
+const clearCart = () => {
+  cart.length = 0;
+  showCart();
+  showToast("Cart cleared!");
+};
+
+const showToast = (message) => {
+  const toast = document.createElement("div");
+  toast.innerText = message;
+  toast.className =
+    "fixed bottom-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg animate-fade";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 1000);
+};
+
+// // card function end

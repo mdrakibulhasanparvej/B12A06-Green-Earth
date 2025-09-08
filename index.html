@@ -108,6 +108,12 @@
         <!-- catagory section start -->
         <div class="w-full p-2 lg:w-1/5">
           <h2 class="font-bold pb-3">Categories</h2>
+          <!-- <button
+            onclick="loadAllTree()" id="all-tree-btn" 
+            class="btn btn-ghost hover:bg-[#15803d] hover:text-[#ffffff] justify-start catagory-btns w-full"
+          >
+            All Trees
+          </button> -->
           <div
             id="catagory-container"
             class="lg:space-y-1 gap-1 flex flex-wrap lg:flex-col"
@@ -118,12 +124,15 @@
         <!-- catagory section End -->
         <!-- grid section start -->
         <div
-          class="w-full p-2 lg:w-3/5 h-[600px] overflow-y-auto scroll-smooth space-y-6"
+          class="w-full p-2 lg:w-3/5 max-h-[800px] lg:max-h-[815px] overflow-y-auto scroll-smooth space-y-6"
         >
+          <div id="loader" class="h-[50vh] justify-center items-center hidden">
+            <span class="loader"></span>
+          </div>
           <!-- grid card all -->
           <div
             id="plant-container"
-            class="grid grid-cols-1 lg:grid-cols-3 gap-3"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
           >
             <!-- plant json data will create automatically here -->
           </div>
@@ -134,7 +143,7 @@
 
         <!-- cart section start -->
         <div
-          class="w-full h-full p-2 lg:w-1/5 bg-white rounded-xl overflow-hidden"
+          class="w-full my-2 h-full p-2 lg:w-1/5 bg-white rounded-xl overflow-hidden"
         >
           <h2 class="font-bold pb-3">Your Cart</h2>
           <div class="all-cart-list">

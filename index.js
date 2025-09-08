@@ -1,9 +1,31 @@
-const loadAllTree = async () => {
-  const url = `https://openapi.programming-hero.com/api/plants`;
-  const res = await fetch(url);
-  const detail = await res.json();
-  dsplplantLoadbyCatagry(detail.plants);
+const loader = document.getElementById("loader");
+const manageloading = (status) => {
+  status
+    ? [
+        loader.classList.add("flex"),
+        loader.classList.remove("hidden"),
+        document.getElementById("plant-container").classList.add("hidden"),
+      ]
+    : [
+        loader.classList.add("hidden"),
+        loader.classList.remove("flex"),
+        document.getElementById("plant-container").classList.remove("hidden"),
+      ];
 };
+
+const loadAllTree = () => {
+  manageloading(true);
+  fetch("https://openapi.programming-hero.com/api/plants")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      dsplplantLoadbyCatagry(data.plants);
+    })
+    .finally(() => {
+      manageloading(false);
+    });
+};
+
 loadAllTree();
 
 const loadCatagory = () => {
@@ -12,6 +34,11 @@ const loadCatagory = () => {
     .then((data) => displayLoadCatagory(data.categories));
 };
 
+const activeBtnRemoveAlltree = () => {
+  const activeBtnsalltree = document.getElementById("all-tree-btn");
+  console.log(activeBtnsalltree);
+  activeBtns.forEach((btn) => btn.classList.remove("active"));
+};
 const activeBtnRemove = () => {
   const activeBtns = document.querySelectorAll(".catagory-btns");
   activeBtns.forEach((btn) => btn.classList.remove("active"));
@@ -76,6 +103,7 @@ const dsplyloadPlantDetails = (word) => {
 };
 
 const dsplplantLoadbyCatagry = (loadCard) => {
+  // manageloading(true);
   // 1.get the container & empty
   const ldedPlantContainer = document.getElementById("plant-container");
   ldedPlantContainer.innerHTML = "";
@@ -101,7 +129,7 @@ const dsplplantLoadbyCatagry = (loadCard) => {
                   </div>
                   <div class="badge"><i class="fa-solid fa-bangladeshi-taka-sign"></i>${gridCard.price}</div>
                 </div>
-                <a class="btn bg-[#15803c4e] text-[#15803D] rounded-full"
+                <a class="btn bg-[#15803d] text-white rounded-full"
                   >Add to Cart</a
                 >
               </div>
@@ -109,6 +137,7 @@ const dsplplantLoadbyCatagry = (loadCard) => {
         `;
     ldedPlantContainer.append(cardCreate);
   }
+  // manageloading(false);
 };
 
 const displayLoadCatagory = (catagry) => {
@@ -121,10 +150,27 @@ const displayLoadCatagory = (catagry) => {
     const ctgryBtn = document.createElement("div");
     ctgryBtn.innerHTML = `
         <button id="catagory-btn-${catagorys.id}" onclick="plantLoadbyCatagry(${catagorys.id})"
-        class="btn btn-ghost hover:bg-[#15803c4e] hover:text-[#15803D] justify-start catagory-btns"> ${catagorys.category_name} 
+        class="btn btn-ghost hover:bg-[#15803D] hover:text-white justify-start catagory-btns w-full"> ${catagorys.category_name} 
         </button>
     `;
     loadCatagory.append(ctgryBtn);
   }
 };
 loadCatagory();
+
+// card function start
+
+const cart = [];
+
+const ldedPlantContainer = document
+  .getElementById("plant-container")
+  .addEventListener("click", (e) => {
+    if (e.target.innerText === "Add to Cart") {
+      cartHandler(e);
+    }
+  });
+const cartHandler = (e) => {
+  console.log("card button clicked");
+};
+
+// card function end

@@ -44,8 +44,10 @@ const activeBtnRemove = () => {
 };
 
 const plantLoadbyCatagry = (id) => {
+  manageloading(true);
   const url = `https://openapi.programming-hero.com/api/category/${id}`;
   console.log(url);
+
   fetch(url)
     .then((tree) => tree.json())
     .then((json) => {
@@ -54,6 +56,7 @@ const plantLoadbyCatagry = (id) => {
       //   console.log(clickActive);
       clickActive.classList.add("active");
       dsplplantLoadbyCatagry(json.plants);
+      manageloading(false);
     });
 };
 
@@ -191,7 +194,9 @@ const showCart = () => {
   cartContainer.innerHTML = "";
 
   cart.forEach((item, index) => {
-    cartContainer.innerHTML += `
+    const newElement = document.createElement("div");
+
+    newElement.innerHTML = `
       <div class="flex justify-between items-center p-3 rounded-xl bg-[#15803c22] mb-3">
         <div class="space-y-2">
           <h2 class="lg:text-sm">${item.title} </h2>
@@ -202,6 +207,7 @@ const showCart = () => {
         <i class="fa-solid fa-xmark cursor-pointer" onclick="removeItem(${index})"></i>
       </div>
     `;
+    cartContainer.append(newElement);
   });
 
   updateTotal();
